@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Custom Properties — Pure Black & White ─── */
+:root {
+  --orange: #FF6B2B;
+  --white: #FFFFFF;
+  --black: #000000;
+  --gray-1: #111111;
+  --gray-2: #1a1a1a;
+  --gray-3: #222222;
+  --gray-4: #333333;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255,255,255,0.6);
+  --text-muted: rgba(255,255,255,0.35);
+  --border: rgba(255,255,255,0.08);
+  --border-bright: rgba(255,255,255,0.15);
+  --glass: rgba(255,255,255,0.04);
+}
+
+/* ─── Base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  overflow-x: hidden;
+}
+
+::selection { background: #fff; color: #000; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+/* ─── Typography ─── */
+.display-xl {
+  font-size: clamp(56px, 9vw, 112px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+.display-lg {
+  font-size: clamp(40px, 7vw, 88px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.display-md {
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+.display-sm {
+  font-size: clamp(24px, 3.5vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.body-lg { font-size: 19px; font-weight: 300; line-height: 1.65; }
+.body-md { font-size: 17px; font-weight: 400; line-height: 1.6; }
+.body-sm { font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ─── Text colours ─── */
+.text-primary   { color: #fff; }
+.text-secondary { color: rgba(255,255,255,0.6); }
+.text-muted     { color: rgba(255,255,255,0.35); }
+.text-dim       { color: rgba(255,255,255,0.15); }
+
+/* ─── Gradient text — white only ─── */
+.text-gradient {
+  background: linear-gradient(160deg, #fff 0%, rgba(255,255,255,0.55) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Surfaces ─── */
+.surface-1 { background: #000; }
+.surface-2 { background: #0a0a0a; }
+.surface-3 { background: #111; }
+.surface-4 { background: #1a1a1a; }
+
+/* ─── Borders ─── */
+.border-subtle  { border: 0.5px solid rgba(255,255,255,0.07); }
+.border-bright  { border: 0.5px solid rgba(255,255,255,0.15); }
+.divider { width: 100%; height: 0.5px; background: rgba(255,255,255,0.07); }
+
+/* ─── Glass ─── */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(255,255,255,0.08);
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: #000;
+  padding: 13px 26px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.btn-primary:hover {
+  background: rgba(255,255,255,0.88);
+  transform: scale(1.03);
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #fff;
+  padding: 13px 26px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 400;
+  border: 0.5px solid rgba(255,255,255,0.25);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.5);
+}
+
+/* ─── Noise overlay ─── */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─── Section base ─── */
+.section { position: relative; overflow: hidden; }
+
+/* ─── Animations ─── */
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.2; transform: scaleY(0.5); }
+  50%       { opacity: 0.8; transform: scaleY(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─── Canvas ─── */
+canvas { display: block; }
