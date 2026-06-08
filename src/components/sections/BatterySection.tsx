@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { BATTERY_STATS } from '@/lib/constants';
 import dynamic from 'next/dynamic';
+import styles from './BatterySection.module.css';
 const ParticleCanvas = dynamic(() => import('@/components/3d/ParticleCanvas'), { ssr: false });
 
 function BatteryBar({ stat, index, animate }: { stat: (typeof BATTERY_STATS)[0]; index: number; animate: boolean }) {
@@ -26,9 +27,8 @@ function BatteryBar({ stat, index, animate }: { stat: (typeof BATTERY_STATS)[0];
           {stat.hours}<span className="text-[14px] font-normal text-white/30 ml-1">hr</span>
         </motion.span>
       </div>
-      <div className="relative h-px rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
-        <motion.div className="absolute left-0 top-0 bottom-0 rounded-full bg-white"
-          style={{ height: 1 }}
+      <div className="relative h-px rounded-full bg-white/10">
+        <motion.div className={`absolute left-0 top-0 bottom-0 rounded-full bg-white ${styles.barFill}`}
           initial={{ width: '0%' }} animate={animate ? { width: `${pct}%` } : {}}
           transition={{ duration: 1.4, delay: 0.5 + index * 0.12, ease: [0.16, 1, 0.3, 1] }}
         />
@@ -40,13 +40,13 @@ function BatteryBar({ stat, index, animate }: { stat: (typeof BATTERY_STATS)[0];
 export default function BatterySection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const { scrollYProgress } = useScroll({ target: ref, layoutEffect: false, offset: ['start end', 'end start'] });
   const particleProgress = useTransform(scrollYProgress, [0.1, 0.7], [0, 1]);
   const [pProgress, setPProgress] = useState(0);
   useEffect(() => particleProgress.on('change', setPProgress), [particleProgress]);
 
   return (
-    <section id="chip" ref={ref} className="section bg-black py-32 px-11" aria-label="Chip and battery">
+    <section id="chip" ref={ref} className="relative section bg-black py-32 px-11" aria-label="Chip and battery">
       <div className="max-w-[960px] mx-auto">
         <div className="text-center mb-20">
           <motion.p className="label text-white/30 mb-5"
@@ -80,9 +80,7 @@ export default function BatterySection() {
                 <div className="mt-2 label text-white/20">5‑nanometer chip</div>
               </motion.div>
             </div>
-            <div className="absolute inset-0 pointer-events-none"
-              style={{ background: 'radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.7) 100%)' }}
-            />
+            <div className={styles.overlay} />
           </motion.div>
 
           {/* Battery bars */}

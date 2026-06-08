@@ -12,11 +12,11 @@ const PRIVACY_FEATURES = [
 export default function PrivacySection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const { scrollYProgress } = useScroll({ target: ref, layoutEffect: false, offset: ['start end', 'end start'] });
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
 
   return (
-    <section id="privacy" ref={ref} className="section relative bg-black py-32 px-11 overflow-hidden" aria-label="Privacy">
+    <section id="privacy" ref={ref} style={{ position: 'relative' }} className="section relative bg-black py-32 px-11 overflow-hidden" aria-label="Privacy">
       {/* Animated rings BG — white only */}
       <motion.div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ y: bgY }}>
         {[320, 520, 720, 920].map((size, i) => (

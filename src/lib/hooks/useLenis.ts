@@ -1,6 +1,11 @@
 'use client';
 import { useEffect, useRef } from 'react';
 
+let globalLenis: any = null;
+export function getLenis() {
+  return globalLenis;
+}
+
 export function useLenis() {
   const lenisRef = useRef<any>(null);
 
@@ -13,10 +18,12 @@ export function useLenis() {
         duration: 1.4,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        smoothTouch: false,
         wheelMultiplier: 1,
         touchMultiplier: 2,
       });
       lenisRef.current = lenis;
+      globalLenis = lenis;
 
       function raf(time: number) {
         lenis.raf(time);
@@ -28,7 +35,10 @@ export function useLenis() {
     init();
 
     return () => {
-      if (lenisRef.current) lenisRef.current.destroy();
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+      }
+      globalLenis = null;
     };
   }, []);
 

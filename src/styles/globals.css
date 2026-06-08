@@ -107,8 +107,8 @@ body {
 /* ─── Glass ─── */
 .glass {
   background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 0.5px solid rgba(255,255,255,0.08);
 }
 

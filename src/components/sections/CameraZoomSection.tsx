@@ -11,6 +11,7 @@ export default function CameraZoomSection() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
+    layoutEffect: false,
     offset: ['start end', 'end start'],
   });
 
@@ -102,6 +103,7 @@ export default function CameraZoomSection() {
     <section
       id="camera"
       ref={ref}
+      style={{ position: 'relative' }}
       className="section relative bg-black py-36 overflow-hidden"
       aria-label="Cutting-edge camera"
     >

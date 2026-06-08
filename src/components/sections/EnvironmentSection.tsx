@@ -15,6 +15,7 @@ export default function EnvironmentSection() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
+    layoutEffect: false,
     offset: ['start end', 'end start'],
   });
 
@@ -25,6 +26,7 @@ export default function EnvironmentSection() {
     <section
       id="environment"
       ref={ref}
+      style={{ position: 'relative' }}
       className="section relative bg-black py-36 px-11 overflow-hidden"
       aria-label="Environment"
     >

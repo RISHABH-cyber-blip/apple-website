@@ -2,7 +2,7 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
 
 export default function ProgressBar() {
-  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll({ layoutEffect: false });
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   return (

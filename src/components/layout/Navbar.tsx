@@ -6,7 +6,7 @@ import { NAV_LINKS } from '@/lib/constants';
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { scrollY } = useScroll();
+  const { scrollY } = useScroll({ layoutEffect: false });
 
   useEffect(() => {
     const unsub = scrollY.on('change', (v) => setScrolled(v > 30));

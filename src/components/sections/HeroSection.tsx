@@ -25,6 +25,7 @@ export default function HeroSection() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
+    layoutEffect: false,
     offset: ['start start', 'end end'],
   });
 
@@ -52,7 +53,7 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={sectionRef}
-      style={{ height: '600vh' }}
+      style={{ height: '600vh', position: 'relative' }}
       className="relative"
       aria-label="iPhone 12 Pro hero"
     >

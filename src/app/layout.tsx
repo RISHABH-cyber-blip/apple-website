@@ -22,12 +22,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ position: 'relative' }}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="theme-color" content="#000000" />
       </head>
-      <body>{children}</body>
+      <body style={{ position: 'relative' }}>{children}</body>
     </html>
   );
 }
