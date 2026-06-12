@@ -12,10 +12,13 @@ interface CardProps {
 }
 
 function Card({ step, index, scrollYProgress }: CardProps) {
+  const totalTransitions = WHY_APPLE_STEPS.length - 1; // 4 transitions for 5 cards
+
   // y position mapping (continuous scroll)
   const y = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * WHY_APPLE_STEPS.length;
+    const activeScroll = v * totalTransitions;
     const diff = index - activeScroll;
+    
     if (diff < -1) return "-130%";
     if (diff < 0) {
       // Card slides up off-screen
@@ -27,8 +30,9 @@ function Card({ step, index, scrollYProgress }: CardProps) {
 
   // scale mapping
   const scale = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * WHY_APPLE_STEPS.length;
+    const activeScroll = v * totalTransitions;
     const diff = index - activeScroll;
+    
     if (diff < -1) return 0.95;
     if (diff < 0) {
       return 1 + diff * 0.05;
@@ -38,9 +42,10 @@ function Card({ step, index, scrollYProgress }: CardProps) {
 
   // rotate mapping
   const rotate = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * WHY_APPLE_STEPS.length;
+    const activeScroll = v * totalTransitions;
     const diff = index - activeScroll;
     const baseRotation = index % 2 === 0 ? -1 : 1;
+    
     if (diff < -1) return -4;
     if (diff < 0) {
       return baseRotation + diff * (4 + baseRotation);
@@ -50,8 +55,9 @@ function Card({ step, index, scrollYProgress }: CardProps) {
 
   // opacity mapping
   const opacity = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * WHY_APPLE_STEPS.length;
+    const activeScroll = v * totalTransitions;
     const diff = index - activeScroll;
+    
     if (diff < -1) return 0;
     if (diff < 0) {
       return 1 + diff;
@@ -61,8 +67,9 @@ function Card({ step, index, scrollYProgress }: CardProps) {
 
   // zIndex mapping
   const zIndex = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * WHY_APPLE_STEPS.length;
+    const activeScroll = v * totalTransitions;
     const diff = index - activeScroll;
+    
     if (diff < 0) {
       return Math.round(20 + index);
     }
