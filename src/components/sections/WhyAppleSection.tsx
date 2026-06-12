@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionValueEvent, MotionValue } from 'framer-motion'
 import { WHY_APPLE_STEPS } from '@/lib/constants'
 import styles from './WhyAppleSection.module.css'
 
@@ -13,67 +13,45 @@ interface CardProps {
 
 function Card({ step, index, scrollYProgress }: CardProps) {
   const totalTransitions = WHY_APPLE_STEPS.length - 1; // 4 transitions for 5 cards
+  const progressStart = index / totalTransitions;
+  const progressEnd = (index + 1) / totalTransitions;
 
-  // y position mapping (continuous scroll)
-  const y = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * totalTransitions;
-    const diff = index - activeScroll;
-    
-    if (diff < -1) return "-130%";
-    if (diff < 0) {
-      // Card slides up off-screen
-      return `${diff * 130}%`;
-    }
-    // Cards stack below
-    return `${diff * 12}px`;
-  });
+  // y position mapping - range-based mapping with clamp: true for maximum stability
+  const y = useTransform(
+    scrollYProgress,
+    [0, progressStart, progressEnd],
+    [-index * 12, 0, -600],
+    { clamp: true }
+  );
 
   // scale mapping
-  const scale = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * totalTransitions;
-    const diff = index - activeScroll;
-    
-    if (diff < -1) return 0.95;
-    if (diff < 0) {
-      return 1 + diff * 0.05;
-    }
-    return Math.max(0.88, 1 - diff * 0.04);
-  });
+  const scale = useTransform(
+    scrollYProgress,
+    [0, progressStart, progressEnd],
+    [Math.max(0.88, 1 - index * 0.04), 1, 0.98],
+    { clamp: true }
+  );
 
   // rotate mapping
-  const rotate = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * totalTransitions;
-    const diff = index - activeScroll;
-    const baseRotation = index % 2 === 0 ? -1 : 1;
-    
-    if (diff < -1) return -4;
-    if (diff < 0) {
-      return baseRotation + diff * (4 + baseRotation);
-    }
-    return baseRotation + diff * 1.5;
-  });
+  const baseRotation = index % 2 === 0 ? -1 : 1;
+  const rotate = useTransform(
+    scrollYProgress,
+    [0, progressStart, progressEnd],
+    [baseRotation + index * 1.5, baseRotation, baseRotation - 2],
+    { clamp: true }
+  );
 
-  // opacity mapping
-  const opacity = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * totalTransitions;
-    const diff = index - activeScroll;
-    
-    if (diff < -1) return 0;
-    if (diff < 0) {
-      return 1 + diff;
-    }
-    return Math.max(0, 1 - diff * 0.3);
-  });
+  // opacity mapping - keeps card 100% opaque when active and during slide-out to prevent text overlap
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, progressStart, progressEnd],
+    [0.6, 1.0, 1.0],
+    { clamp: true }
+  );
 
-  // zIndex mapping
+  // zIndex mapping - ensures active card stays on top as it slides out
   const zIndex = useTransform(scrollYProgress, (v) => {
-    const activeScroll = v * totalTransitions;
-    const diff = index - activeScroll;
-    
-    if (diff < 0) {
-      return Math.round(20 + index);
-    }
-    return Math.round(10 - index);
+    return v >= progressStart ? Math.round(20 + index) : Math.round(10 - index);
   });
 
   return (
@@ -138,8 +116,10 @@ export default function WhyAppleSection() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
+    layoutEffect: false,
     offset: ['start start', 'end end']
   })
+
 
   return (
     <section 
