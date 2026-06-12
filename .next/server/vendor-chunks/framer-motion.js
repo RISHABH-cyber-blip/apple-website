@@ -2151,16 +2151,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "(ssr)/./node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs ***!
-  \*****************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   useMotionValueEvent: () => (/* binding */ useMotionValueEvent)\n/* harmony export */ });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"(ssr)/./node_modules/next/dist/server/future/route-modules/app-page/vendored/ssr/react.js\");\n\nfunction useMotionValueEvent(value, event, callback) {\n    /**\n     * useInsertionEffect will create subscriptions before any other\n     * effects will run. Effects run upwards through the tree so it\n     * can be that binding a useLayoutEffect higher up the tree can\n     * miss changes from lower down the tree.\n     */ (0,react__WEBPACK_IMPORTED_MODULE_0__.useInsertionEffect)(()=>value.on(event, callback), [\n        value,\n        event,\n        callback\n    ]);\n}\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi9ub2RlX21vZHVsZXMvZnJhbWVyLW1vdGlvbi9kaXN0L2VzL3V0aWxzL3VzZS1tb3Rpb24tdmFsdWUtZXZlbnQubWpzIiwibWFwcGluZ3MiOiI7Ozs7O0FBQTJDO0FBRTNDLFNBQVNDLG9CQUFvQkMsS0FBSyxFQUFFQyxLQUFLLEVBQUVDLFFBQVE7SUFDL0M7Ozs7O0tBS0MsR0FDREoseURBQWtCQSxDQUFDLElBQU1FLE1BQU1HLEVBQUUsQ0FBQ0YsT0FBT0MsV0FBVztRQUFDRjtRQUFPQztRQUFPQztLQUFTO0FBQ2hGO0FBRStCIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vaXBob25lLTEyLXByby1zaG93Y2FzZS8uL25vZGVfbW9kdWxlcy9mcmFtZXItbW90aW9uL2Rpc3QvZXMvdXRpbHMvdXNlLW1vdGlvbi12YWx1ZS1ldmVudC5tanM/MjYzZSJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VJbnNlcnRpb25FZmZlY3QgfSBmcm9tICdyZWFjdCc7XG5cbmZ1bmN0aW9uIHVzZU1vdGlvblZhbHVlRXZlbnQodmFsdWUsIGV2ZW50LCBjYWxsYmFjaykge1xuICAgIC8qKlxuICAgICAqIHVzZUluc2VydGlvbkVmZmVjdCB3aWxsIGNyZWF0ZSBzdWJzY3JpcHRpb25zIGJlZm9yZSBhbnkgb3RoZXJcbiAgICAgKiBlZmZlY3RzIHdpbGwgcnVuLiBFZmZlY3RzIHJ1biB1cHdhcmRzIHRocm91Z2ggdGhlIHRyZWUgc28gaXRcbiAgICAgKiBjYW4gYmUgdGhhdCBiaW5kaW5nIGEgdXNlTGF5b3V0RWZmZWN0IGhpZ2hlciB1cCB0aGUgdHJlZSBjYW5cbiAgICAgKiBtaXNzIGNoYW5nZXMgZnJvbSBsb3dlciBkb3duIHRoZSB0cmVlLlxuICAgICAqL1xuICAgIHVzZUluc2VydGlvbkVmZmVjdCgoKSA9PiB2YWx1ZS5vbihldmVudCwgY2FsbGJhY2spLCBbdmFsdWUsIGV2ZW50LCBjYWxsYmFja10pO1xufVxuXG5leHBvcnQgeyB1c2VNb3Rpb25WYWx1ZUV2ZW50IH07XG4iXSwibmFtZXMiOlsidXNlSW5zZXJ0aW9uRWZmZWN0IiwidXNlTW90aW9uVmFsdWVFdmVudCIsInZhbHVlIiwiZXZlbnQiLCJjYWxsYmFjayIsIm9uIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(ssr)/./node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs\n");
-
-/***/ }),
-
 /***/ "(ssr)/./node_modules/framer-motion/dist/es/utils/velocity-per-second.mjs":
 /*!**************************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/utils/velocity-per-second.mjs ***!

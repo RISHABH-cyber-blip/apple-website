@@ -47,6 +47,7 @@
 }
 
 .deckContent {
+  width: calc(100% - 48px);
   max-width: 900px;
   height: 480px;
   position: relative;
@@ -157,10 +158,10 @@
   top: 0;
   left: 0;
   width: 100%;
-  transform-origin: 0 0;
+  height: 100%;
+  transform-origin: center center;
   border: 0.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 32px;
-  min-height: 480px;
   overflow: hidden;
   will-change: transform, opacity;
 }
