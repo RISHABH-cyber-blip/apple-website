@@ -10,11 +10,15 @@ export function useLenis() {
   const lenisRef = useRef<any>(null);
 
   useEffect(() => {
-    let lenis: any;
+    let lenisInstance: any = null;
+    let isDestroyed = false;
+    let rafId: number | null = null;
 
     const init = async () => {
       const { default: Lenis } = await import('lenis');
-      lenis = new Lenis({
+      if (isDestroyed) return;
+
+      const lenis = new Lenis({
         duration: 1.4,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
@@ -24,21 +28,30 @@ export function useLenis() {
       });
       lenisRef.current = lenis;
       globalLenis = lenis;
+      lenisInstance = lenis;
 
       function raf(time: number) {
+        if (isDestroyed) return;
         lenis.raf(time);
-        requestAnimationFrame(raf);
+        rafId = requestAnimationFrame(raf);
       }
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     };
 
     init();
 
     return () => {
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
+      isDestroyed = true;
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
       }
-      globalLenis = null;
+      if (lenisInstance) {
+        lenisInstance.destroy();
+      }
+      lenisRef.current = null;
+      if (globalLenis === lenisInstance) {
+        globalLenis = null;
+      }
     };
   }, []);
 

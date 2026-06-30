@@ -1,62 +1,22 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform, useMotionValueEvent, MotionValue } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { WHY_APPLE_STEPS } from '@/lib/constants'
 import styles from './WhyAppleSection.module.css'
 
 interface CardProps {
   step: typeof WHY_APPLE_STEPS[0]
   index: number
-  scrollYProgress: MotionValue<number>
 }
 
-function Card({ step, index, scrollYProgress }: CardProps) {
-  const totalTransitions = WHY_APPLE_STEPS.length - 1; // 4 transitions for 5 cards
-  const progressStart = index / totalTransitions;
-  const progressEnd = (index + 1) / totalTransitions;
-
-  // y position mapping - range-based mapping with clamp: true for maximum stability
-  const y = useTransform(
-    scrollYProgress,
-    [0, progressStart, progressEnd],
-    [-index * 12, 0, -600],
-    { clamp: true }
-  );
-
-  // scale mapping
-  const scale = useTransform(
-    scrollYProgress,
-    [0, progressStart, progressEnd],
-    [Math.max(0.88, 1 - index * 0.04), 1, 0.98],
-    { clamp: true }
-  );
-
-  // rotate mapping
-  const baseRotation = index % 2 === 0 ? -1 : 1;
-  const rotate = useTransform(
-    scrollYProgress,
-    [0, progressStart, progressEnd],
-    [baseRotation + index * 1.5, baseRotation, baseRotation - 2],
-    { clamp: true }
-  );
-
-  // opacity mapping - keeps card 100% opaque when active and during slide-out to prevent text overlap
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, progressStart, progressEnd],
-    [0.6, 1.0, 1.0],
-    { clamp: true }
-  );
-
-  // zIndex mapping - ensures active card stays on top as it slides out
-  const zIndex = useTransform(scrollYProgress, (v) => {
-    return v >= progressStart ? Math.round(20 + index) : Math.round(10 - index);
-  });
-
+function Card({ step, index }: CardProps) {
   return (
     <motion.div
-      style={{ y, scale, rotate, opacity, zIndex }}
+      initial={{ opacity: 0, y: 15, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -15, scale: 0.98 }}
+      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       className={`${styles.card} ${index % 2 === 0 ? styles.cardDark : styles.cardLight}`}
     >
       {/* Top accent line */}
@@ -112,21 +72,10 @@ function Card({ step, index, scrollYProgress }: CardProps) {
 }
 
 export default function WhyAppleSection() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    layoutEffect: false,
-    offset: ['start start', 'end end']
-  })
-
+  const [activeStep, setActiveStep] = useState(0)
 
   return (
-    <section 
-      ref={sectionRef} 
-      className={styles.section}
-    >
-      {/* Child 1: Header */}
+    <section className={styles.section}>
       <div className={styles.header}>
         <div className={styles.headerContent}>
           <span className={styles.headerLabel}>
@@ -138,17 +87,37 @@ export default function WhyAppleSection() {
         </div>
       </div>
 
-      {/* Child 2: Card Deck Container */}
-      <div className={styles.deckContainer}>
-        <div className={styles.deckContent}>
+      <div className={styles.mainContainer}>
+        {/* Sidebar buttons */}
+        <div className={styles.sidebar}>
           {WHY_APPLE_STEPS.map((step, index) => (
-            <Card 
-              key={index} 
-              step={step} 
-              index={index} 
-              scrollYProgress={scrollYProgress} 
-            />
+            <button
+              key={index}
+              onClick={() => setActiveStep(index)}
+              className={`${styles.sidebarBtn} ${index === activeStep ? styles.activeBtn : ''}`}
+            >
+              <span className={styles.btnNumber}>0{step.step}</span>
+              <span className={styles.btnTitle}>{step.title}</span>
+              {index === activeStep && (
+                <motion.div 
+                  layoutId="activeIndicator"
+                  className={styles.activeIndicator}
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                />
+              )}
+            </button>
           ))}
+        </div>
+
+        {/* Active Card Content */}
+        <div className={styles.cardWrapper}>
+          <AnimatePresence mode="wait">
+            <Card 
+              key={activeStep}
+              step={WHY_APPLE_STEPS[activeStep]}
+              index={activeStep}
+            />
+          </AnimatePresence>
         </div>
       </div>
     </section>

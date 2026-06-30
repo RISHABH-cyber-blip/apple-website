@@ -31,6 +31,20 @@ export default function HeroSection() {
 
   // Sync scroll progress
   useEffect(() => {
+    // Set initial values on mount
+    const initialVal = scrollYProgress.get();
+    setScrollProgress(initialVal);
+    setShowScrollHint(initialVal < 0.03);
+
+    let initialFound = null;
+    for (const panel of HERO_PANELS) {
+      if (initialVal >= panel.triggerAt && initialVal <= panel.exitAt) {
+        initialFound = panel.id;
+        break;
+      }
+    }
+    setActivePanel(initialFound);
+
     return scrollYProgress.on('change', (v) => {
       setScrollProgress(v);
       setShowScrollHint(v < 0.03);

@@ -115,7 +115,7 @@ export default function EnvironmentSection() {
               transition={{ delay: 0.2 }}
             >
               iPhone 12 Pro is made with more recycled and responsibly sourced materials
-              than ever. And we're on track to be fully carbon neutral by 2030 — across
+              than ever. And we&apos;re on track to be fully carbon neutral by 2030 — across
               our entire supply chain and product life cycle.
             </motion.p>
 

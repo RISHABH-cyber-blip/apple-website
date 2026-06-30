@@ -1,14 +1,12 @@
 .section {
   position: relative;
-  height: 220vh;
+  padding: 100px 24px;
+  background: #000;
 }
 
 .header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
   width: 100%;
-  padding: 80px 20px 40px;
+  margin-bottom: 60px;
 }
 
 .headerContent {
@@ -27,30 +25,155 @@
 }
 
 .headerTitle {
-  font-size: clamp(40px, 8vw, 80px);
+  font-size: clamp(36px, 6vw, 64px);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.15;
   color: #fff;
   max-width: 800px;
   margin: 0;
 }
 
-.deckContainer {
-  position: sticky;
-  top: 97px;
-  height: calc(100vh - 97px);
-  z-index: 10;
+/* Sidebar and Main Container */
+.mainContainer {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
 }
 
-.deckContent {
-  width: calc(100% - 48px);
-  max-width: 900px;
-  height: 480px;
+@media (min-width: 1024px) {
+  .mainContainer {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 48px;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px;
+  width: 100%;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    flex-direction: column;
+    width: 320px;
+    height: auto;
+    overflow-x: visible;
+    flex-shrink: 0;
+    gap: 16px;
+  }
+}
+
+.sidebarBtn {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.3s, border-color 0.3s, background-color 0.3s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.sidebarBtn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebarBtn:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 1024px) {
+  .sidebarBtn {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 15px;
+  }
+}
+
+.activeBtn {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.btnNumber {
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.activeBtn .btnNumber {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.btnTitle {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Active Highlight bar */
+.activeIndicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: #0071e3;
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 0 12px rgba(0, 113, 227, 0.6);
+}
+
+@media (min-width: 1024px) {
+  .activeIndicator {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: auto;
+    width: 4px;
+    height: auto;
+    border-radius: 4px 0 0 4px;
+  }
+}
+
+/* Card Container styling */
+.cardWrapper {
+  flex: 1;
+  position: relative;
+  height: 480px;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .cardWrapper {
+    height: 520px;
+  }
 }
 
 .card {
@@ -59,11 +182,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  transform-origin: center center;
   border: 0.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 32px;
   overflow: hidden;
-  will-change: transform, opacity;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
 }
 
 .cardDark {
@@ -113,7 +235,7 @@
 }
 
 .stepHeading {
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(28px, 4vw, 42px);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #fff;
@@ -127,7 +249,7 @@
   color: rgba(255, 255, 255, 0.5);
   line-height: 1.6;
   margin-bottom: 32px;
-  max-width: 340px;
+  max-width: 360px;
 }
 
 .stepCta {
@@ -135,13 +257,15 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #0071e3;
   text-decoration: none;
-  transition: color 0.25s;
+  font-weight: 500;
+  transition: color 0.25s, transform 0.2s;
 }
 
 .stepCta:hover {
-  color: #fff;
+  color: #2997ff;
+  transform: translateX(2px);
 }
 
 .iconGrid {

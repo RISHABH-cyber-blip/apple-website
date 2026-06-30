@@ -43,7 +43,10 @@ export default function BatterySection() {
   const { scrollYProgress } = useScroll({ target: ref, layoutEffect: false, offset: ['start end', 'end start'] });
   const particleProgress = useTransform(scrollYProgress, [0.1, 0.7], [0, 1]);
   const [pProgress, setPProgress] = useState(0);
-  useEffect(() => particleProgress.on('change', setPProgress), [particleProgress]);
+  useEffect(() => {
+    setPProgress(particleProgress.get());
+    return particleProgress.on('change', setPProgress);
+  }, [particleProgress]);
 
   return (
     <section id="chip" ref={ref} className="relative section bg-black py-32 px-11" aria-label="Chip and battery">

@@ -22,7 +22,10 @@ export default function CameraZoomSection() {
   const tunnelProgress = useTransform(scrollYProgress, [0.4, 0.8], [0, 1]);
 
   const [tp, setTp] = useState(0);
-  useEffect(() => tunnelProgress.on('change', setTp), [tunnelProgress]);
+  useEffect(() => {
+    setTp(tunnelProgress.get());
+    return tunnelProgress.on('change', setTp);
+  }, [tunnelProgress]);
 
   // Lens tunnel canvas animation
   useEffect(() => {
