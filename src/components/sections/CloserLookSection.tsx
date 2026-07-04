@@ -17,27 +17,47 @@ function CloserCard({ card, index }: { card: (typeof CLOSER_CARDS)[0]; index: nu
       transition={{ duration: 0.8, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
     >
+      {/* Background Image */}
+      {card.bgImage && (
+        <div className="absolute inset-0 overflow-hidden rounded-[28px] z-0">
+          <motion.img
+            src={card.bgImage}
+            alt={card.title}
+            className="w-full h-full object-cover object-center pointer-events-none select-none"
+            initial={{ scale: 1.08, opacity: 0 }}
+            animate={inView ? { scale: 1, opacity: 0.45 } : {}}
+            whileHover={{ scale: 1.03, opacity: 0.75 }}
+            transition={{
+              opacity: { duration: 0.8, ease: 'easeOut' },
+              scale: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+            }}
+          />
+          {/* Subtle gradient overlay to make text pop */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent transition-opacity duration-500 group-hover:opacity-80" />
+        </div>
+      )}
+
       {/* Hover glow — white */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[28px]"
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[28px] z-10"
         style={{ background: 'radial-gradient(ellipse at 40% 30%, rgba(255,255,255,0.04) 0%, transparent 70%)' }}
       />
 
       {/* Top border on hover */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-white/0 group-hover:bg-white/20 transition-all duration-500" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-white/0 group-hover:bg-white/20 transition-all duration-500 z-10" />
 
       {/* Icon */}
-      <div className="absolute top-8 left-8 w-12 h-12 rounded-xl flex items-center justify-center text-xl"
+      <div className="absolute top-8 left-8 w-12 h-12 rounded-xl flex items-center justify-center text-xl z-10"
         style={{ background: 'rgba(255,255,255,0.06)', border: '0.5px solid rgba(255,255,255,0.1)' }}
       >
         {card.icon}
       </div>
 
       {/* Decorative circles */}
-      <div className="absolute top-0 right-0 w-52 h-52 rounded-full border border-white/[0.03] translate-x-20 -translate-y-20" />
-      <div className="absolute top-0 right-0 w-80 h-80 rounded-full border border-white/[0.02] translate-x-28 -translate-y-28" />
+      <div className="absolute top-0 right-0 w-52 h-52 rounded-full border border-white/[0.03] translate-x-20 -translate-y-20 z-10" />
+      <div className="absolute top-0 right-0 w-80 h-80 rounded-full border border-white/[0.02] translate-x-28 -translate-y-28 z-10" />
 
       {/* Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-8"
+      <div className="absolute bottom-0 left-0 right-0 p-8 z-10"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%)' }}
       >
         <motion.h3

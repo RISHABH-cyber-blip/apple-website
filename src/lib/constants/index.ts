@@ -25,6 +25,7 @@ export const CLOSER_CARDS = [
     body: 'Tougher than any smartphone glass, front and back.',
     color: '#1C1C1E',
     accent: '#FF6B2B',
+    bgImage: '/images/closer/ceramic-shield.jpg',
   },
   {
     id: 'magsafe',
@@ -33,6 +34,7 @@ export const CLOSER_CARDS = [
     body: 'A perfectly aligned magnetic connection for accessories and wireless charging.',
     color: '#1C1C1E',
     accent: '#FF6B2B',
+    bgImage: '/images/closer/magsafe.jpg',
   },
   {
     id: 'lidar',
@@ -41,6 +43,7 @@ export const CLOSER_CARDS = [
     body: 'Incredibly fast AR. Night mode portraits. Pro-level depth sensing.',
     color: '#1C1C1E',
     accent: '#FF6B2B',
+    bgImage: '/images/closer/lidar.jpg',
   },
   {
     id: '5g',
@@ -49,6 +52,7 @@ export const CLOSER_CARDS = [
     body: 'The fastest 5G in a smartphone. Stream. Download. Dominate.',
     color: '#1C1C1E',
     accent: '#FF6B2B',
+    bgImage: '/images/closer/5g.jpg',
   },
   {
     id: 'pro-display',
@@ -57,6 +61,7 @@ export const CLOSER_CARDS = [
     body: '2532 x 1170 OLED. HDR. Dolby Vision. True Tone.',
     color: '#1C1C1E',
     accent: '#FF6B2B',
+    bgImage: '/images/closer/super-retina-xdr.jpg',
   },
   {
     id: 'ss-design',
@@ -65,6 +70,7 @@ export const CLOSER_CARDS = [
     body: 'A flat-edge design with surgical-grade stainless steel band.',
     color: '#1C1C1E',
     accent: '#FF6B2B',
+    bgImage: '/images/closer/surgical-steel.jpg',
   },
 ];
 
