@@ -16,11 +16,7 @@ import PrivacySection from '@/components/sections/PrivacySection';
 import EssentialsSection from '@/components/sections/EssentialsSection';
 import Footer from '@/components/layout/Footer';
 import SectionDivider from '@/components/ui/SectionDivider';
-import { useLenis } from '@/lib/hooks/useLenis';
-
 export default function Home() {
-  useLenis();
-
   useEffect(() => {
     document.documentElement.classList.add('loaded');
   }, []);

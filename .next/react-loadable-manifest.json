@@ -10,11 +10,5 @@
     "files": [
       "static/chunks/_app-pages-browser_src_components_3d_Scene_tsx.js"
     ]
-  },
-  "lib\\hooks\\useLenis.ts -> lenis": {
-    "id": "lib\\hooks\\useLenis.ts -> lenis",
-    "files": [
-      "static/chunks/_app-pages-browser_node_modules_lenis_dist_lenis_mjs.js"
-    ]
   }
 }

@@ -5,10 +5,6 @@ import { Environment, ContactShadows, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import IPhoneModel from './IPhoneModel';
 
-interface SceneProps {
-  scrollProgress: number;
-}
-
 function Lights() {
   return (
     <>
@@ -30,10 +26,10 @@ function LoadingBox() {
   );
 }
 
-export default function Scene({ scrollProgress }: SceneProps) {
+export default function Scene() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 6], fov: 40, near: 0.1, far: 100 }}
+      camera={{ position: [0, 0, 6], fov: 35, near: 0.1, far: 100 }}
       gl={{
         antialias: true,
         toneMapping: THREE.ACESFilmicToneMapping,
@@ -47,10 +43,10 @@ export default function Scene({ scrollProgress }: SceneProps) {
     >
       <Lights />
       <Suspense fallback={<LoadingBox />}>
-        <IPhoneModel scrollProgress={scrollProgress} />
+        <IPhoneModel />
         <Environment preset="studio" />
         <ContactShadows
-          position={[0, -2.2, 0]}
+          position={[0, -1.6, 0]}
           opacity={0.3}
           scale={6}
           blur={2}
@@ -58,6 +54,15 @@ export default function Scene({ scrollProgress }: SceneProps) {
           color="#000000"
         />
       </Suspense>
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        enableRotate={true}
+        rotateSpeed={0.6}
+        minPolarAngle={Math.PI / 2.6}
+        maxPolarAngle={Math.PI / 1.6}
+        target={[0, 0, 0]}
+      />
     </Canvas>
   );
 }

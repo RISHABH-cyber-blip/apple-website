@@ -1,30 +1,13 @@
 'use client';
 import { useRef, useEffect } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import { lerp } from '@/lib/utils';
 
-interface IPhoneModelProps {
-  scrollProgress: number;
-}
-
-const PANELS = [
-  [0.00, 0.12,  0,              0,              0,     0,    0,   1.0],
-  [0.12, 0.22,  0,              0.25,           0,     0.8,  0,   1.05],
-  [0.22, 0.36,  0,              0.15,           0,    -0.8,  0,   1.05],
-  [0.36, 0.50,  0.05,           Math.PI,        0,     0.8,  0,   1.1],
-  [0.50, 0.64,  0.15,           Math.PI + 0.3,  0,     0.8,  0.3, 1.05],
-  [0.64, 0.78,  0.10,           Math.PI + 0.5,  0.05, -0.3,  0.5, 1.4],
-  [0.78, 0.90,  0,              Math.PI * 1.5,  0,     1.2,  0,   1.0],
-  [0.90, 1.00,  0,              Math.PI * 2,    0,     0,    0,   1.05],
-];
-
-export default function IPhoneModel({ scrollProgress }: IPhoneModelProps) {
+export default function IPhoneModel() {
   const groupRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/models/IP12PRO1.glb');
+  const { scene } = useGLTF('/models/IP12PRO1.glb?v=2');
   const initialized = useRef(false);
-  const { camera } = useThree();
 
   useEffect(() => {
     if (!scene || !groupRef.current || initialized.current) return;
@@ -59,44 +42,41 @@ export default function IPhoneModel({ scrollProgress }: IPhoneModelProps) {
       }
     });
 
-    // Auto-center and normalize scale
+    // Create an inner group to act as the centered pivot container
+    const innerGroup = new THREE.Group();
+    innerGroup.name = 'centered-pivot';
+    innerGroup.add(clone);
+
+    // Compute bounding box of clone to find its geometric center
     const box = new THREE.Box3().setFromObject(clone);
     const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
+    
+    // Shift clone position inside innerGroup so its geometric center is at [0, 0, 0]
     clone.position.sub(center);
-    const maxDim = Math.max(size.x, size.y, size.z);
-    clone.scale.setScalar(3.5 / maxDim);
 
-    groupRef.current.add(clone);
+    // Stand the phone upright on the innerGroup (tilt back 90 degrees)
+    innerGroup.rotation.x = -Math.PI / 2;
+    // Default Y rotation to Math.PI so the screen faces the camera
+    innerGroup.rotation.y = Math.PI;
+    // Flip the phone 180 degrees so the camera notches/lenses are at the top
+    innerGroup.rotation.z = Math.PI;
+
+    // Normalize scale based on maximum dimension
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    innerGroup.scale.setScalar(2.2 / maxDim); // Shrink from 3.2 to 2.2 to fit comfortably
+
+    // Add the centered pivot group to the main ref group
+    groupRef.current.add(innerGroup);
   }, [scene]);
 
-  useFrame((_, delta) => {
+  // Gentle idle auto-rotation around the vertical (Y) axis
+  useFrame((state) => {
     if (!groupRef.current) return;
-    const sp = scrollProgress;
-
-    let tRX = 0, tRY = 0, tRZ = 0, tPX = 0, tPY = 0, tSC = 1.0;
-
-    for (const [start, end, rx, ry, rz, px, py, sc] of PANELS) {
-      if (sp >= (start as number) && sp <= (end as number)) {
-        tRX = rx as number; tRY = ry as number; tRZ = rz as number;
-        tPX = px as number; tPY = py as number; tSC = sc as number;
-        break;
-      }
-    }
-
-    const s = 1 - Math.pow(0.001, delta);
-    groupRef.current.rotation.x = lerp(groupRef.current.rotation.x, tRX, s * 3);
-    groupRef.current.rotation.y = lerp(groupRef.current.rotation.y, tRY, s * 3);
-    groupRef.current.rotation.z = lerp(groupRef.current.rotation.z, tRZ, s * 3);
-    groupRef.current.position.x = lerp(groupRef.current.position.x, tPX, s * 2);
-    groupRef.current.position.y = lerp(groupRef.current.position.y, tPY, s * 2);
-    groupRef.current.scale.setScalar(lerp(groupRef.current.scale.x, tSC, s * 2));
-
-    const camTarget = (sp > 0.64 && sp < 0.78) ? 3.5 : 6;
-    camera.position.z = lerp(camera.position.z, camTarget, s);
+    groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.25; // slow turntable spin
   });
 
   return <group ref={groupRef} />;
 }
 
-useGLTF.preload('/models/IP12PRO1.glb');
+useGLTF.preload('/models/IP12PRO1.glb?v=2');
